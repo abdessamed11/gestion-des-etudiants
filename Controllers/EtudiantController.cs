@@ -27,6 +27,18 @@ namespace gestion_des_étudiants.Controllers
         #endregion
 
         #region GET: EtudiantController Search
+        [HttpGet]
+        public async Task<IActionResult> Index(string etsearch)
+        {
+            ViewData["getetudiant"] = etsearch;
+            var etudquery = from x in _emp.Etudiantt select x;
+            if (!string.IsNullOrEmpty(etsearch))
+            {
+                etudquery = etudquery.Where(x => x.Nom.Contains(etsearch) || x.Prenom.Contains(etsearch) || x.Adresse.Contains(etsearch));
+            }
+            return View(await etudquery.AsNoTracking().ToListAsync());
+        }
+
 
         #endregion
 

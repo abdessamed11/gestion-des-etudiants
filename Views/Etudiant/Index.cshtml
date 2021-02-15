@@ -9,6 +9,15 @@
 <p>
     <a class="btn btn-secondary" asp-action="Create">Create New</a>
 </p>
+
+<form method="get" asp-action="Index">
+    <p>
+        <input type="search" placeholder="entrer le nom, prénom ...." value="@ViewData["getetudiant"]" name="etsearch" style="width=500px;"  />
+        <input type="submit" value="chercher" class="btn btn-primary"/>
+        <a asp-action="Index">Tous les etudiants</a>
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
