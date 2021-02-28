@@ -25,6 +25,29 @@ namespace gestion_des_étudiants
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication()
+                .AddGoogle(googleOptions =>
+                {
+                    IConfigurationSection googleAuthNSection =
+                        Configuration.GetSection("Authentication:Google");
+
+                    googleOptions.ClientId = googleAuthNSection["ClientId"];
+                    googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+
+/*
+                })
+                .AddFacebook(options =>
+                {
+
+                    options.AppId = Configuration["2948925045336053"];
+                    options.AppSecret = Configuration["38868b1344205ad397dfa72b134b9161"];*/
+
+                }).AddFacebook(facebookOptions =>
+                {
+                    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                }); 
+               
             services.AddControllersWithViews();
             services.AddDbContext<EtudiantDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("myconnection")));
         }
@@ -46,6 +69,7 @@ namespace gestion_des_étudiants
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
@@ -54,6 +78,7 @@ namespace gestion_des_étudiants
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Etudiant}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

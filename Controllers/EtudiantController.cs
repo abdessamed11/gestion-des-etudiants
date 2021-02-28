@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using gestion_des_étudiants.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace gestion_des_étudiants.Controllers
 {
@@ -55,6 +56,7 @@ namespace gestion_des_étudiants.Controllers
         #endregion
 
         #region GET: EtudiantController/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
